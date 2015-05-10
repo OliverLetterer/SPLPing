@@ -1,6 +1,6 @@
 # SPLPing
 
-[![CI Status](http://img.shields.io/travis/Oliver Letterer/SPLPing.svg?style=flat)](https://travis-ci.org/Oliver Letterer/SPLPing)
+[![CI Status](https://circleci.com/gh/OliverLetterer/SPLPing.svg?&style=shield&circle-token=b40a2a543fdbe99ff252dbe9879c71649439bc68)](https://circleci.com/gh/OliverLetterer/SPLPing)
 [![Version](https://img.shields.io/cocoapods/v/SPLPing.svg?style=flat)](http://cocoadocs.org/docsets/SPLPing)
 [![License](https://img.shields.io/cocoapods/l/SPLPing.svg?style=flat)](http://cocoadocs.org/docsets/SPLPing)
 [![Platform](https://img.shields.io/cocoapods/p/SPLPing.svg?style=flat)](http://cocoadocs.org/docsets/SPLPing)
@@ -14,10 +14,23 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
+### Carthage
+
+SPLPing is available through [Carthage](https://github.com/Carthage/Carthage). To install
+it, simply add the following line to your Cartfile:
+
+```
+github "OliverLetterer/SPLPing" ~> 1.0.0
+```
+
+### CocoaPods
+
 SPLPing is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
-    pod "SPLPing"
+```ruby
+pod "SPLPing"
+```
 
 ## Author
 
