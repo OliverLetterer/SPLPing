@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface Tests2 : XCTestCase
+#import <SPLPing/SPLPing.h>
+
+@interface PingTests : XCTestCase
+
+@property (nonatomic, strong) SPLPing *ping;
 
 @end
 
-@implementation Tests2
+@implementation PingTests
 
 - (void)setUp
 {
@@ -23,6 +27,9 @@
 - (void)tearDown
 {
     [super tearDown];
+
+    [self.ping stop];
+    self.ping = nil;
 }
 
 - (void)testExample

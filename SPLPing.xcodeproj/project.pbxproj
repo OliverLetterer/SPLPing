@@ -10,6 +10,12 @@
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
+		A725CE481AFFAFEC008816D2 /* SPLPing.m in Sources */ = {isa = PBXBuildFile; fileRef = A725CE471AFFAFEC008816D2 /* SPLPing.m */; };
+		A725CE4B1AFFB01C008816D2 /* SPLPingResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = A725CE491AFFB01C008816D2 /* SPLPingResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A725CE4C1AFFB01C008816D2 /* SPLPingResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = A725CE4A1AFFB01C008816D2 /* SPLPingResponse.m */; };
+		A725CE4F1AFFB067008816D2 /* SPLPingConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = A725CE4D1AFFB067008816D2 /* SPLPingConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A725CE501AFFB067008816D2 /* SPLPingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = A725CE4E1AFFB067008816D2 /* SPLPingConfiguration.m */; };
+		A725CE521AFFB101008816D2 /* ICMPHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = A725CE511AFFB101008816D2 /* ICMPHeader.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		A7B79A141AFE016B001DBA1B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B79A0B1AFE016B001DBA1B /* AppDelegate.m */; };
 		A7B79A151AFE016B001DBA1B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B79A0D1AFE016B001DBA1B /* ViewController.m */; };
 		A7B79A161AFE016B001DBA1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A7B79A0E1AFE016B001DBA1B /* InfoPlist.strings */; };
@@ -59,7 +65,13 @@
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		771470FA260E2D627FAC553E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = README.md; sourceTree = "<group>"; };
+		771470FA260E2D627FAC553E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A725CE471AFFAFEC008816D2 /* SPLPing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLPing.m; sourceTree = "<group>"; };
+		A725CE491AFFB01C008816D2 /* SPLPingResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLPingResponse.h; sourceTree = "<group>"; };
+		A725CE4A1AFFB01C008816D2 /* SPLPingResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLPingResponse.m; sourceTree = "<group>"; };
+		A725CE4D1AFFB067008816D2 /* SPLPingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLPingConfiguration.h; sourceTree = "<group>"; };
+		A725CE4E1AFFB067008816D2 /* SPLPingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLPingConfiguration.m; sourceTree = "<group>"; };
+		A725CE511AFFB101008816D2 /* ICMPHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICMPHeader.h; sourceTree = "<group>"; };
 		A7B79A0A1AFE016B001DBA1B /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A7B79A0B1AFE016B001DBA1B /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A7B79A0C1AFE016B001DBA1B /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -78,7 +90,7 @@
 		A7B79A8A1AFE48F8001DBA1B /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		A7B79A911AFE4929001DBA1B /* Expecta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Expecta.framework; path = ../../../../BlaBlubb/Carthage/Build/iOS/Expecta.framework; sourceTree = "<group>"; };
 		B4283C2D762951218F2C1A6F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		D715CAA2DB217885E5203BD6 /* SPLPing.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; path = SPLPing.podspec; sourceTree = "<group>"; };
+		D715CAA2DB217885E5203BD6 /* SPLPing.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = SPLPing.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +188,11 @@
 			isa = PBXGroup;
 			children = (
 				A7B79A481AFE0C18001DBA1B /* SPLPing.h */,
+				A725CE471AFFAFEC008816D2 /* SPLPing.m */,
+				A725CE4D1AFFB067008816D2 /* SPLPingConfiguration.h */,
+				A725CE4E1AFFB067008816D2 /* SPLPingConfiguration.m */,
+				A725CE491AFFB01C008816D2 /* SPLPingResponse.h */,
+				A725CE4A1AFFB01C008816D2 /* SPLPingResponse.m */,
 				A7B79A461AFE0C18001DBA1B /* Supporting Files */,
 			);
 			path = SPLPing;
@@ -184,6 +201,7 @@
 		A7B79A461AFE0C18001DBA1B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A725CE511AFFB101008816D2 /* ICMPHeader.h */,
 				A7B79A471AFE0C18001DBA1B /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -213,7 +231,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A725CE521AFFB101008816D2 /* ICMPHeader.h in Headers */,
+				A725CE4F1AFFB067008816D2 /* SPLPingConfiguration.h in Headers */,
 				A7B79A491AFE0C18001DBA1B /* SPLPing.h in Headers */,
+				A725CE4B1AFFB01C008816D2 /* SPLPingResponse.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +316,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "PROJECT" */;
+			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "SPLPing" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -373,6 +394,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A725CE4C1AFFB01C008816D2 /* SPLPingResponse.m in Sources */,
+				A725CE501AFFB067008816D2 /* SPLPingConfiguration.m in Sources */,
+				A725CE481AFFAFEC008816D2 /* SPLPing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,7 +597,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
-					/Users/oliver/Development/trash/BlaBlubb/Carthage/Build/iOS,
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -600,7 +624,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
-					/Users/oliver/Development/trash/BlaBlubb/Carthage/Build/iOS,
+					"$(SRCROOT)/Carthage/Build/iOS",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -615,7 +639,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6003F585195388D10070C39A /* Build configuration list for PBXProject "PROJECT" */ = {
+		6003F585195388D10070C39A /* Build configuration list for PBXProject "SPLPing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6003F5BD195388D20070C39A /* Debug */,

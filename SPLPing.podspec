@@ -9,8 +9,8 @@
 
 Pod::Spec.new do |s|
   s.name             = "SPLPing"
-  s.version          = "0.1.0"
-  s.summary          = "A short description of SPLPing."
+  s.version          = "1.0.0"
+  s.summary          = "Lightweight, reuable and race free ping implementation."
   s.homepage         = "https://github.com/OliverLetterer/SPLPing"
   s.license          = 'MIT'
   s.author           = { "Oliver Letterer" => "oliver.letterer@gmail.com" }
@@ -20,11 +20,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
-  s.source_files = 'SPLPing'
-  # s.resource_bundles = {
-  #   'SPLPing' => [ 'SPLPing/Resources/*' ]
-  # }
+  s.source_files = 'SPLPing/*.{h,m}'
+  s.private_header_files = 'SPLPing/ICMPHeader.h'
 
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.frameworks = 'Foundation', 'CFNetwork'
 end
