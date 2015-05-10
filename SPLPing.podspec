@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SPLPing"
-  s.version          = "1.0.0"
+  s.version          = "1.0.1"
   s.summary          = "Lightweight, reusable and race free ping implementation."
   s.homepage         = "https://github.com/OliverLetterer/SPLPing"
   s.license          = 'MIT'
