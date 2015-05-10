@@ -1,0 +1,8 @@
+language: objective-c
+install:
+  - brew update
+  - brew install carthage || brew outdated carthage || brew upgrade carthage
+  - gem update xcpretty cocoapods
+  - carthage update --use-submodules
+script:
+  - xcodebuild -workspace SPLPing.xcworkspace -scheme SPLPing test -sdk iphonesimulator -configuration Release | xcpretty -c; exit ${PIPESTATUS[0]}
