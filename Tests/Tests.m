@@ -44,6 +44,20 @@
     expect(response.duration).to.beGreaterThan(0.0);
 }
 
+- (void)testPingToLocalhostOnce
+{
+    SPLPingConfiguration *config = [[SPLPingConfiguration alloc] initWithPingInterval:1.0];
+
+    __block SPLPingResponse *response = nil;
+    [SPLPing pingOnce:@"127.0.0.1" configuration:config completion:^(SPLPingResponse *_response) {
+        response = _response;
+    }];
+
+    expect(response).willNot.beNil();
+    expect(response.error).to.beNil();
+    expect(response.duration).to.beGreaterThan(0.0);
+}
+
 - (void)testPingToGoogle
 {
     SPLPingConfiguration *config = [[SPLPingConfiguration alloc] initWithPingInterval:1.0];

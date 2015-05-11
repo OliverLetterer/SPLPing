@@ -104,6 +104,31 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
     });
 }
 
++ (void)pingOnce:(NSString *)host configuration:(SPLPingConfiguration *)configuration completion:(void(^)(SPLPingResponse *response))completion
+{
+    NSDate *startDate = [NSDate date];
+
+    [SPLPing pingToHost:host configuration:configuration completion:^(SPLPing * __nullable ping, NSError * __nullable error) {
+        if (error) {
+            SPLPingResponse *response = [[SPLPingResponse alloc] initWithSequenceNumber:1 duration:[[NSDate date] timeIntervalSinceDate:startDate] identifier:0 ipAddress:nil error:error];
+            return completion(response);
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-retain-cycles"
+
+        [ping setObserver:^(SPLPing * __nonnull _ping, SPLPingResponse * __nonnull response) {
+            [ping stop];
+            [ping setObserver:nil];
+            completion(response);
+        }];
+
+#pragma clang diagnostic pop
+
+        [ping start];
+    }];
+}
+
 - (instancetype)initWithHost:(NSString *)host ipv4Address:(NSData *)ipv4Address configuration:(SPLPingConfiguration *)configuration
 {
     if (self = [super init]) {
@@ -139,6 +164,8 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 - (void)dealloc
 {
+    [self stop];
+    
     CFRunLoopSourceInvalidate(_socketSource), CFRelease(_socketSource), _socketSource = nil;
     CFRelease(_socket), _socket = nil;
 }
