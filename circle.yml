@@ -9,7 +9,7 @@ dependencies:
     - brew install carthage || brew outdated carthage || brew upgrade carthage
     - sudo gem install xcpretty --no-ri --no-rdoc
   override:
-    - carthage update --use-submodules
+    - carthage bootstrap
 test:
   override:
     - xcodebuild -scheme Example test -sdk iphonesimulator -configuration Release | xcpretty -c; exit ${PIPESTATUS[0]}
