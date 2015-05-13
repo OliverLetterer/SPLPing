@@ -52,6 +52,8 @@ static NSData *getIPv4AddressFromHost(NSString *host, NSError **error)
 
 @interface SPLPing ()
 
+@property (nonatomic, assign) BOOL hasScheduledNextPing;
+
 @property (nonatomic, readonly) NSData *ipv4Address;
 
 @property (nonatomic, assign) CFSocketRef socket;
@@ -165,7 +167,7 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 - (void)dealloc
 {
     [self stop];
-    
+
     CFRunLoopSourceInvalidate(_socketSource), CFRelease(_socketSource), _socketSource = nil;
     CFRelease(_socket), _socket = nil;
 }
@@ -200,10 +202,7 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 - (void)socket:(CFSocketRef)socket didReadData:(NSData *)data
 {
-    if (self.timeoutBlock) {
-        dispatch_block_cancel(self.timeoutBlock);
-        self.timeoutBlock = nil;
-    }
+    NSParameterAssert([NSThread currentThread].isMainThread);
 
     NSData *ipHeaderData = nil, *ipData = nil, *icmpHeaderData = nil, *icmpData = nil;
     if (!ICMPExtractResponseFromData(data, &ipHeaderData, &ipData, &icmpHeaderData, &icmpData)) {
@@ -226,17 +225,6 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
     uint16_t identifier = OSSwapHostToBigInt16(icmpHeader->identifier);
     uint16_t sequenceNumber = OSSwapHostToBigInt16(icmpHeader->sequenceNumber);
 
-    if (identifier != self.identifier || sequenceNumber != self.currentSequenceNumber) {
-        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadServerResponse userInfo:@{}];
-        SPLPingResponse *response = [[SPLPingResponse alloc] initWithSequenceNumber:self.currentSequenceNumber duration:[[NSDate date] timeIntervalSinceDate:self.currentStartDate] identifier:self.identifier ipAddress:nil error:error];
-
-        if (self.observer) {
-            self.observer(self, response);
-        }
-
-        return [self _scheduleNextPing];
-    }
-
     if (self.observer) {
         self.observer(self, [[SPLPingResponse alloc] initWithSequenceNumber:sequenceNumber duration:[[NSDate date] timeIntervalSinceDate:self.currentStartDate] identifier:identifier ipAddress:ipString error:nil]);
     }
@@ -248,9 +236,13 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 - (void)_sendPing
 {
+    NSParameterAssert([NSThread currentThread].isMainThread);
+
     if (!self.isPinging) {
         return;
     }
+
+    NSParameterAssert(self.timeoutBlock == nil);
 
     self.currentSequenceNumber++;
     self.currentStartDate = [NSDate date];
@@ -281,8 +273,13 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
     NSParameterAssert(socketError == kCFSocketSuccess);
 
     __weak typeof(self) weakSelf = self;
+    uint16_t currentSequenceNumber = self.currentSequenceNumber;
+
     self.timeoutBlock = dispatch_block_create(DISPATCH_BLOCK_ASSIGN_CURRENT, ^{
         __strong typeof(self) self = weakSelf;
+        if (currentSequenceNumber != self.currentSequenceNumber) {
+            return;
+        }
 
         self.timeoutBlock = nil;
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:@{}];
@@ -299,11 +296,23 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 - (void)_scheduleNextPing
 {
-    __weak typeof(self) weakSelf = self;
+    NSParameterAssert([NSThread currentThread].isMainThread);
 
+    if (self.hasScheduledNextPing) {
+        return;
+    }
+
+    self.hasScheduledNextPing = YES;
+    if (self.timeoutBlock) {
+        dispatch_block_cancel(self.timeoutBlock);
+        self.timeoutBlock = nil;
+    }
+
+    __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.configuration.pingInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         __strong typeof(self) self = weakSelf;
         [self _sendPing];
+        self.hasScheduledNextPing = NO;
     });
 }
 
