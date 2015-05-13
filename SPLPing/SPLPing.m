@@ -311,8 +311,8 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.configuration.pingInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         __strong typeof(self) self = weakSelf;
-        [self _sendPing];
         self.hasScheduledNextPing = NO;
+        [self _sendPing];
     });
 }
 
