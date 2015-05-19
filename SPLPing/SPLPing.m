@@ -203,6 +203,7 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 - (void)socket:(CFSocketRef)socket didReadData:(NSData *)data
 {
     NSParameterAssert([NSThread currentThread].isMainThread);
+    NS_VALID_UNTIL_END_OF_SCOPE id strongSelf = self;
 
     NSData *ipHeaderData = nil, *ipData = nil, *icmpHeaderData = nil, *icmpData = nil;
     if (!ICMPExtractResponseFromData(data, &ipHeaderData, &ipData, &icmpHeaderData, &icmpData)) {
