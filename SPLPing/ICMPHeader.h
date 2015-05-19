@@ -151,6 +151,12 @@ static inline BOOL ICMPExtractResponseFromData(NSData *data, NSData **ipHeaderDa
     assert(ipHeader->protocol == 1);                               // ICMP
     size_t ipHeaderLength = (ipHeader->versionAndHeaderLength & 0x0F) * sizeof(uint32_t);
 
+    *ipHeaderData = [buffer subdataWithRange:NSMakeRange(0, sizeof(IPHeader))];
+
+    if (buffer.length >= sizeof(IPHeader) + ipHeaderLength) {
+        *ipData = [buffer subdataWithRange:NSMakeRange(sizeof(IPHeader), ipHeaderLength)];
+    }
+
     if (buffer.length < ipHeaderLength + sizeof(ICMPHeader)) {
         return NO;
     }
@@ -163,13 +169,14 @@ static inline BOOL ICMPExtractResponseFromData(NSData *data, NSData **ipHeaderDa
     uint16_t calculatedChecksum = in_cksum(icmpHeader, buffer.length - icmpHeaderOffset);
     icmpHeader->checksum = receivedChecksum;
 
-    assert(receivedChecksum == calculatedChecksum);
+    if (receivedChecksum != calculatedChecksum) {
+        NSLog(@"%s: invalid ICMP header. Checksums did not match", __PRETTY_FUNCTION__);
+        return NO;
+    }
 
-    *ipHeaderData = [buffer subdataWithRange:NSMakeRange(0, sizeof(IPHeader))];
-    *ipData = [buffer subdataWithRange:NSMakeRange(sizeof(IPHeader), ipHeaderLength)];
     *icmpHeaderData = [buffer subdataWithRange:NSMakeRange(icmpHeaderOffset, sizeof(ICMPHeader))];
     *icmpData = [buffer subdataWithRange:NSMakeRange(icmpHeaderOffset + sizeof(ICMPHeader), buffer.length - (icmpHeaderOffset + sizeof(ICMPHeader)))];
-
+    
     return YES;
 }
 

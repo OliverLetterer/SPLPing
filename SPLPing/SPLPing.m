@@ -208,8 +208,22 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
     NSParameterAssert([NSThread currentThread].isMainThread);
     NS_VALID_UNTIL_END_OF_SCOPE id strongSelf = self;
 
-    NSData *ipHeaderData = nil, *ipData = nil, *icmpHeaderData = nil, *icmpData = nil;
+    __block NSData *ipHeaderData = nil, *ipData = nil, *icmpHeaderData = nil, *icmpData = nil;
+    NSString *(^extractIPAddress)(void) = ^NSString *(void) {
+        if (ipHeaderData == nil) {
+            return nil;
+        }
+
+        const IPHeader *ipHeader = ipHeaderData.bytes;
+        const uint8_t *sourceAddress = ipHeader->sourceAddress;
+        return [NSString stringWithFormat:@"%d.%d.%d.%d", sourceAddress[0], sourceAddress[1], sourceAddress[2], sourceAddress[3]];
+    };
+
     if (!ICMPExtractResponseFromData(data, &ipHeaderData, &ipData, &icmpHeaderData, &icmpData)) {
+        if (ipHeaderData != nil && ![self.ip isEqualToString:extractIPAddress()]) {
+            return;
+        }
+
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorCannotDecodeRawData userInfo:@{}];
         SPLPingResponse *response = [[SPLPingResponse alloc] initWithSequenceNumber:self.currentSequenceNumber duration:[[NSDate date] timeIntervalSinceDate:self.currentStartDate] identifier:self.identifier ipAddress:nil error:error];
 
@@ -220,10 +234,7 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
         return [self _scheduleNextPing];
     }
 
-    const IPHeader *ipHeader = ipHeaderData.bytes;
-    const uint8_t *sourceAddress = ipHeader->sourceAddress;
-    NSString *ipString = [NSString stringWithFormat:@"%d.%d.%d.%d", sourceAddress[0], sourceAddress[1], sourceAddress[2], sourceAddress[3]];
-
+    NSString *ipString = extractIPAddress();
     if (![self.ip isEqualToString:ipString]) {
         return;
     }
