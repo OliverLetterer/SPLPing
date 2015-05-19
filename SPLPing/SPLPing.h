@@ -24,7 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SPLPing : NSObject
 
-@property (nonatomic, nullable, readonly) NSString *host;
+@property (nonatomic, readonly) NSString *host;
+@property (nonatomic, readonly) NSString *ip;
+
 @property (nonatomic, readonly) SPLPingConfiguration *configuration;
 
 @property (nonatomic, nullable, copy) void(^observer)(SPLPing *ping, SPLPingResponse *response);
@@ -34,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithIPv4Address:(NSString *)ipv4Address configuration:(SPLPingConfiguration *)configuration;
-- (instancetype)initWithHost:(nullable NSString *)host ipv4Address:(NSData *)ipv4Address configuration:(SPLPingConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithHost:(NSString *)host ipv4Address:(NSData *)ipv4Address configuration:(SPLPingConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 + (void)pingToHost:(NSString *)host configuration:(SPLPingConfiguration *)configuration completion:(void(^)(SPLPing *__nullable ping, NSError *__nullable error))completion;
 + (void)pingOnce:(NSString *)host configuration:(SPLPingConfiguration *)configuration completion:(void(^)(SPLPingResponse *response))completion;

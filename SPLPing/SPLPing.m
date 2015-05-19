@@ -139,6 +139,9 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
         _configuration = configuration;
         _identifier = arc4random();
 
+        const struct sockaddr_in *socketAddress = _ipv4Address.bytes;
+        _ip = [NSString stringWithCString:inet_ntoa(socketAddress->sin_addr) encoding:NSASCIIStringEncoding];
+
         CFSocketContext context = {
             .info = (__bridge void *)self,
         };
@@ -161,7 +164,7 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
     socketAddress.sin_addr.s_addr = inet_addr(ipv4Address.UTF8String);
 
     NSData *data = [NSData dataWithBytes:&socketAddress length:sizeof(socketAddress)];
-    return [self initWithHost:nil ipv4Address:data configuration:configuration];
+    return [self initWithHost:ipv4Address ipv4Address:data configuration:configuration];
 }
 
 - (void)dealloc
@@ -220,6 +223,10 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
     const IPHeader *ipHeader = ipHeaderData.bytes;
     const uint8_t *sourceAddress = ipHeader->sourceAddress;
     NSString *ipString = [NSString stringWithFormat:@"%d.%d.%d.%d", sourceAddress[0], sourceAddress[1], sourceAddress[2], sourceAddress[3]];
+
+    if (![self.ip isEqualToString:ipString]) {
+        return;
+    }
 
     const ICMPHeader *icmpHeader = icmpHeaderData.bytes;
 
