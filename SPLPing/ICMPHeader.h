@@ -13,6 +13,10 @@
 
 #pragma mark - IP and ICMP On-The-Wire Format
 
+#ifndef check_compile_time
+#define check_compile_time __Check_Compile_Time
+#endif
+
 // The following declarations specify the structure of ping packets on the wire.
 
 // IP header structure:
@@ -176,7 +180,7 @@ static inline BOOL ICMPExtractResponseFromData(NSData *data, NSData **ipHeaderDa
 
     *icmpHeaderData = [buffer subdataWithRange:NSMakeRange(icmpHeaderOffset, sizeof(ICMPHeader))];
     *icmpData = [buffer subdataWithRange:NSMakeRange(icmpHeaderOffset + sizeof(ICMPHeader), buffer.length - (icmpHeaderOffset + sizeof(ICMPHeader)))];
-    
+
     return YES;
 }
 
