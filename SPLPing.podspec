@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "SPLPing"
-  s.version          = "1.1.7"
+  s.version          = "1.1.8"
   s.summary          = "Lightweight, reusable and race free ping implementation."
   s.homepage         = "https://github.com/OliverLetterer/SPLPing"
   s.license          = 'MIT'
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/OliverLetterer/SPLPing.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/oletterer'
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'SPLPing/*.{h,m}'
