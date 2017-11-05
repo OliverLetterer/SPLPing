@@ -171,8 +171,8 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 {
     [self stop];
 
-    CFRunLoopSourceInvalidate(_socketSource), CFRelease(_socketSource), _socketSource = nil;
-    CFRelease(_socket), _socket = nil;
+    CFRunLoopSourceInvalidate(_socketSource); CFRelease(_socketSource); _socketSource = nil;
+    CFRelease(_socket); _socket = nil;
 }
 
 #pragma mark - Instance methods
@@ -336,4 +336,3 @@ static void socketCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 }
 
 @end
-
